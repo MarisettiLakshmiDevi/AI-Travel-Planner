@@ -1,5 +1,7 @@
-flask
+Flask==3.0.3
 flask-cors
-requests
-python-dotenv
 gunicorn
+google-genai
+googlemaps
+python-dotenv
+requests
