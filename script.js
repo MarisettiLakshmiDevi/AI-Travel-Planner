@@ -9,7 +9,7 @@ document.getElementById("tripForm").addEventListener("submit", async (e) => {
   const inputData = { origin, destination, days, budget, interests };
 
   try {
-    const response = await fetch("http://127.0.0.1:5000/generate", {
+    const response = await fetch("https://YOUR_CLOUD_RUN_SERVICE_URL/generate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(inputData)
@@ -18,21 +18,21 @@ document.getElementById("tripForm").addEventListener("submit", async (e) => {
     const itinerary = result.itinerary;
 
     // Build HTML output
-    let html = `<h3>Trip Summary</h3><p>${itinerary.summary}</p>`;
-    html += `<h3>Transport Options</h3><ul>`;
+    let html = <h3>Trip Summary</h3><p>${itinerary.summary}</p>;
+    html += <h3>Transport Options</h3><ul>;
     itinerary.transport.forEach(t => {
-      html += `<li>${t.mode}: ${t.cost ? '₹'+t.cost : 'Not available'}</li>`;
+      html += <li>${t.mode}: ${t.cost ? '₹'+t.cost : 'Not available'}</li>;
     });
-    html += `</ul>`;
+    html += </ul>;
     itinerary.daily_plan.forEach(day => {
-      html += `<h4>Day ${day.day}</h4>`;
-      html += `<p>Morning: ${day.morning}</p>`;
-      html += `<p>Afternoon: ${day.afternoon}</p>`;
-      html += `<p>Evening: ${day.evening}</p>`;
-      html += `<p>Cost: ₹${day.cost}</p>`;
+      html += <h4>Day ${day.day}</h4>;
+      html += <p>Morning: ${day.morning}</p>;
+      html += <p>Afternoon: ${day.afternoon}</p>;
+      html += <p>Evening: ${day.evening}</p>;
+      html += <p>Cost: ₹${day.cost}</p>;
     });
-    html += `<h3>Total Cost: ₹${itinerary.total_cost}</h3>`;
-    html += `<p>${itinerary.notes}</p>`;
+    html += <h3>Total Cost: ₹${itinerary.total_cost}</h3>;
+    html += <p>${itinerary.notes}</p>;
 
     document.getElementById("output").innerHTML = html;
 
