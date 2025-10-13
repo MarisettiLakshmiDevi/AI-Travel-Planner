@@ -1,81 +1,49 @@
-<!--
-AI Travel Planner — Single-file frontend (index.html)
-
-What this file does:
-- Provides a simple form to enter origin, destination, days, budget and interests
-- Sends a POST to your backend /generate endpoint
-- Renders the returned JSON itinerary in a readable format
-
-How to use (quick steps):
-1) Save this file as index.html inside a new folder (e.g. frontend).
-2) Edit the BACKEND_URL variable in the <script> section below if required. By default it is:
-   const BACKEND_URL = "http://127.0.0.1:8080";
-   Your Flask server printed it was running on port 8080 earlier, so this should work locally.
-
-3) Start a simple static server from PowerShell (in the folder where index.html lives):
-   # Windows PowerShell
-   python -m http.server 5500
-
-   Or use VS Code Live Server extension if you prefer.
-
-4) Open the page in a browser:
-   http://127.0.0.1:5500
-
-5) Make sure your Flask backend is running (you said it runs on http://127.0.0.1:8080). Submit the form and you should see the generated itinerary.
-
-Important notes:
-- Do NOT put API keys in this file. Keep them secret in your backend only.
-- When you later deploy the backend to Cloud Run (or similar), update BACKEND_URL to the HTTPS Cloud Run URL (e.g. https://your-service-xxxxx-uc.a.run.app).
-- If you deploy the frontend to GitHub Pages (HTTPS), the backend MUST be HTTPS too (Cloud Run provides HTTPS). If you see "Failed to fetch" in the browser console after deploying, check for mixed-content (HTTP vs HTTPS).
-
-Troubleshooting:
-- "Failed to fetch": backend URL wrong, backend not running, or mixed-content (HTTP/HTTPS) block.
-- CORS: your backend already uses flask-cors(CORS(app)), which allows all origins. If you still get CORS, check browser console and backend logs.
-
--->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Travel Planner for Students</title>
+  <title>AI Travel Planner</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>🎒 AI Travel Planner for Students</h1>
+  <header>
+    <h1>AI Travel Planner ✈️</h1>
+  </header>
 
-    <form id="travelForm">
-      <label>Origin:</label>
-      <input type="text" id="origin" value="Hyderabad" required>
+  <main>
+    <section class="form-section">
+      <h2>Plan Your Trip</h2>
+      <form id="tripForm">
+        <label>Origin: <input type="text" id="origin" placeholder="e.g. Eluru" required></label>
+        <label>Destination: <input type="text" id="destination" placeholder="e.g. Goa" required></label>
+        <label>Start Date: <input type="date" id="startDate" required></label>
+        <label>Days: <input type="number" id="days" min="1" max="14" required></label>
+        <label>Budget (INR): <input type="number" id="budget" min="100" step="100"  required></label>
 
-      <label>Destination:</label>
-      <input type="text" id="destination" value="Bangalore" required>
+        <fieldset>
+          <legend>Interests:</legend>
+          <label><input type="checkbox" value="Food"> Food</label>
+          <label><input type="checkbox" value="Beaches"> Beaches</label>
+          <label><input type="checkbox" value="History"> History</label>
+          <label><input type="checkbox" value="Nature"> Nature</label>
+          <label><input type="checkbox" value="Nightlife"> Nightlife</label>
+          <label><input type="checkbox" value="Museums"> Museums</label>
+        </fieldset>
 
-      <label>Start Date:</label>
-      <input type="date" id="startDate" required>
+        <button type="submit">Generate Itinerary</button>
+      </form>
+    </section>
 
-      <label>End Date:</label>
-      <input type="date" id="endDate" required>
+    <section class="result-section">
+      <h2>Generated Itinerary</h2>
+      <div id="output">Your itinerary will appear here...</div>
+    </section>
+  </main>
 
-      <label>Budget (₹):</label>
-      <input type="number" id="budget" value="5000" required>
-
-      <label>Interests (comma separated):</label>
-      <input type="text" id="interests" value="food, nature, culture">
-
-      <button type="submit">Generate Travel Plan</button>
-    </form>
-
-    <h2>🌍 Your Travel Plan</h2>
-    <div id="travel-output" class="travel-output"></div>
-
-    <h2>📋 JSON Data</h2>
-    <div id="json-box">
-      <pre id="output" class="json-output"></pre>
-    </div>
-  </div>
+  <footer>
+    <p>© 2025 AI Travel Planner</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>
